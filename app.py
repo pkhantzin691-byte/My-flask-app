@@ -332,6 +332,6 @@ def login():
         username=username, 
         show_music=show_music, 
         show_video=show_video,
-        search_query=search_query
-    )
+        search_query=search_query)
+    
     
