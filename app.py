@@ -26,6 +26,16 @@ html_code = """
             width: 350px;
             text-align: center;
         }
+        .forgot-link {
+            margin-top: 15px;
+            display: block;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +46,7 @@ html_code = """
             <input type="password" name="password" placeholder="Password" required style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;"><br><br>
             <button type="submit" style="width: 100%; background-color: #4285F4; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">Next</button>
         </form>
+        <a href="#" class="forgot-link">Forgot password?</a>
     </div>
 </body>
 </html>
