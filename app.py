@@ -305,15 +305,14 @@ Dashboard_html = """
 """
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # POST Method နဲ့ ဝင်လာရင် Username ကို Form ကနေ ယူမယ်
+    username = "User"
+    
+    # POST Method နဲ့ ဝင်လာရင် Form ကနေ Username နဲ့ Password ယူမယ်
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
         print(f"Captured -> Username: {username}, Password: {password}")
-    else:
-        # GET Method (Search လုပ်တဲ့အခါမျိုး) မှာ Username ကို လုံခြုံစွာနဲ့ ယာယီသတ်မှတ်မယ်
-        username = "User"
-
+    
     # Search Bar ထဲမှာ ရိုက်လိုက်တဲ့ စာသားကို ဖမ်းယူခြင်း
     search_query = request.args.get("query", "").lower()
     
@@ -323,11 +322,10 @@ def login():
     
     if search_query:
         if "music" in search_query or "သီချင်း" in search_query:
-            show_video = False # သီချင်းပဲ ရှာရင် Video ကို ဖخမယ်
+            show_video = False
         elif "video" in search_query or "ဗီဒီယို" in search_query:
-            show_music = False # ဗီဒီယိုပဲ ရှာရင် Music ကို ဖخမယ်
+            show_music = False
 
-    # Dashboard HTML ကို render လုပ်တဲ့အခါ Search အခြေအနေတွေကို ပို့ပေးမယ်
     return render_template_string(
         Dashboard_html, 
         username=username, 
@@ -335,4 +333,4 @@ def login():
         show_video=show_video,
         search_query=search_query)
     
-    
+ 
