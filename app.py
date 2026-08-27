@@ -230,8 +230,30 @@ Dashboard_html = """
             padding: 15px;
             border-radius: 8px;
         }
+        .search-box {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .search-box input {
+            width: 70%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+        }
+        .search-box button {
+            width: 25%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #1a73e8;
+            color: white;
+            border: 1px solid #1a73e8;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+        }
         .content {
-            margin-top: 30px;
+            margin-top: 20px;
         }
         .card {
             background: white;
@@ -247,6 +269,14 @@ Dashboard_html = """
     <div class="header">
         <h1>Welcome, {{ username }}! 🎉</h1>
         <p>ඔသင့်ရဲ့ ကိုယ်ပိုင် Dashboard မှ ကြိုဆိုပါတယ်</p>
+    </div>
+
+    <!-- Search Bar အသစ် -->
+    <div class="search-box">
+        <form action="" method="GET">
+            <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
+            <button type="submit">ရှာမည်</button>
+        </form>
     </div>
     
     <div class="content">
@@ -268,7 +298,6 @@ Dashboard_html = """
 </body>
 </html>
 """
-
 @app.route("/")
 def index():
     return render_template_string(email_html)
