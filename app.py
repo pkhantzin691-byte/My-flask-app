@@ -273,13 +273,12 @@ Dashboard_html = """
 
     <!-- Search Bar အသစ် -->
     <div class="search-box">
-        <form action="" method="GET">
-            <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
-            <button type="submit">ရှာမည်</button>
-        </form>
-    </div>
-    
-        <div class="content">
+    <form action="/dashboard" method="GET">
+        <input type="text" name="query" placeholder="သီချင်း သို့မဟုတ် ဗီဒီယို ရှာရန်...">
+        <button type="submit">ရှာမည်</button>
+    </form>
+</div>
+   <div class="content">
         {% if show_music %}
         <div class="card">
             <h3>🎵 Music Player</h3>
@@ -303,20 +302,10 @@ Dashboard_html = """
 </body>
 </html>
 """
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    username = "User"
-    
-    # POST Method နဲ့ ဝင်လာရင် Form ကနေ Username နဲ့ Password ယူမယ်
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        print(f"Captured -> Username: {username}, Password: {password}")
-    
-    # Search Bar ထဲမှာ ရိုက်လိုက်တဲ့ စာသားကို ဖမ်းယူခြင်း
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
     search_query = request.args.get("query", "").lower()
     
-    # ရိုက်လိုက်တဲ့ စာသားအပေါ်မူတည်ပြီး ဘာတွေပြမလဲ စစ်ဆေးခြင်း
     show_music = True
     show_video = True
     
@@ -328,9 +317,8 @@ def login():
 
     return render_template_string(
         Dashboard_html, 
-        username=username, 
+        username="User", 
         show_music=show_music, 
         show_video=show_video,
         search_query=search_query)
     
- 
